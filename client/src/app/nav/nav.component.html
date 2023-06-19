@@ -23,7 +23,9 @@
             </li>
 
           </ng-container>
-
+          <li class="nav-item">
+            <a class="nav-link" routerLink='/errors' routerLinkActive='active'>errors</a>
+          </li>
         </ul>
 
         <div class="dropdown d-flex ml-auto" *ngIf="(accountService.currentUser$  | async) as user" dropdown>
