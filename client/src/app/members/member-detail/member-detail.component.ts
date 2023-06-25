@@ -11,6 +11,7 @@ import { MembersService } from 'src/app/_services/members.service';
 })
 export class MemberDetailComponent implements OnInit {
   member: Member;
+  HideOption:string = '';
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
   constructor(private memberService: MembersService, private route:ActivatedRoute ) { }
