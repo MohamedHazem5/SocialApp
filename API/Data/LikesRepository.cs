@@ -19,7 +19,6 @@ namespace API.Data
         {
             _context = context;
         }
-
         public async Task<UserLike> GetUserLike(int SourceUserId, int likedUserId)
         {
             return await _context.Likes.FindAsync(SourceUserId,likedUserId); 
