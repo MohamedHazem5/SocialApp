@@ -34,6 +34,11 @@ export class AccountService {
     )
   }
   setCurrentUser(user: User){
+    user.roles=[];
+    const roles = this.getDecodedToken(user.token).role;
+    // if the user is just a member not have a array of roles so we make a condition to check that
+    // if the user is not array we will make it array and push the roles to it
+    Array.isArray(roles) ? user.roles = roles : user.roles.push(roles);
     localStorage.setItem('user',JSON.stringify(user));
     this.currentUserSource.next(user);
   }
@@ -41,5 +46,13 @@ export class AccountService {
   logout(){
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
+  }
+
+  getDecodedToken(token)
+  {
+    // atob => is just to get the information on the token (Signture)
+    // 1 => for payload middle part
+
+    return JSON.parse(atob(token.split('.')[1]));
   }
 }
