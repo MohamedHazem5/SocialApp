@@ -1,20 +1,16 @@
-
 namespace API.Extensions
 {
     public static class DateTimeExtensions
     {
-        public static int CalculateAge(this DateTime dob)
+        public static int CalcuateAge(this DateOnly dob)
         {
-        // Save today's date.
-        var today = DateTime.Today;
+            var today = DateOnly.FromDateTime(DateTime.UtcNow);
 
-        // Calculate the age.
-        var age = today.Year - dob.Year;
+            var age = today.Year - dob.Year;
 
-        // Go back to the year in which the person was born in case of a leap year
-        if (dob.Date > today.AddYears(-age)) age--;
+            if (dob > today.AddYears(-age)) age--;
 
-        return age; 
+            return age;
         }
     }
 }

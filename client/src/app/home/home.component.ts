@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,21 +6,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  registerModel= false;
+  registerMode = false;
+  users: any;
 
   constructor() { }
 
   ngOnInit(): void {
   }
-registerToggle(){
-  this.registerModel=!this.registerModel;
+
+  registerToggle() {
+    this.registerMode = !this.registerMode;
   }
 
-
-
-  cancelRegisterMode(event: boolean){
-    this.registerModel=event;
-  }
-
+  cancelRegisterMode(event: boolean) {
+    this.registerMode = event;
+  } 
 
 }

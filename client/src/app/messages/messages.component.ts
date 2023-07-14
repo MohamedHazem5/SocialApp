@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Message } from '../_models/message';
-import { MessageService } from '../_services/message.service';
 import { Pagination } from '../_models/pagination';
+import { MessageService } from '../_services/message.service';
+import { ConfirmService } from '../_services/confirm.service';
 
 @Component({
   selector: 'app-messages',
@@ -9,42 +10,49 @@ import { Pagination } from '../_models/pagination';
   styleUrls: ['./messages.component.css']
 })
 export class MessagesComponent implements OnInit {
+  messages?: Message[];
+  pagination?: Pagination;
+  container = 'Unread';
+  pageNumber = 1;
+  pageSize = 5;
+  loading = false;
 
-  messages:Message[]=[];
-
-  pagination:Pagination;
-  container="Unread";
-  pageNumber=1;
-  pageSize=5;
-  loading=false;
-
-  constructor(private messageService:MessageService) { }
+  constructor(private messageService: MessageService,private confirmSerivce:ConfirmService) { }
 
   ngOnInit(): void {
     this.loadMessages();
   }
 
-  loadMessages(){
-    this.loading=true;
-    this.messageService.getMessages(this.pageNumber,this.pageSize,this.container).subscribe(response=>{
-      this.messages=response.result;
-      this.pagination=response.pagination;
-      this.loading=false;
-    })
-  }
-  deleteMessage(id:number){
-    this.messageService.deleteMessage(id).subscribe(()=>{
-      this.messages.splice(this.messages.findIndex(m=> m.id === id),1)
+  loadMessages() {
+    this.loading = true;
+    this.messageService.getMessages(this.pageNumber, this.pageSize, this.container).subscribe({
+      next: response => {
+        this.messages = response.result;
+        this.pagination = response.pagination;
+        this.loading = false;
+      }
     })
   }
 
-  pageChanged(event:any){
+  deleteMessage(id: number) {
+    this.confirmSerivce.confirm('Confirm Delete Message','This cannot be done').subscribe(
+      result =>{
+        if(result)
+        {
+          this.messageService.deleteMessage(id).subscribe({
+            next: () => this.messages?.splice(this.messages.findIndex(m => m.id === id), 1)
+          })
+        }
+      }
+    )
 
-    if(this.pageNumber !== event.page){
-      this.pageNumber=event.page;
+  }
+
+  pageChanged(event: any) {
+    if (this.pageNumber !== event.page) {
+      this.pageNumber = event.page;
       this.loadMessages();
     }
-
   }
 
 }

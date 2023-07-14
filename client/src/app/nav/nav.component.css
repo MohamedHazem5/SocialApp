@@ -1,10 +1,9 @@
-.dropdown-toggle,.dropdown-item {
-  cursor: pointer;
+.dropdown-toggle, .dropdown-item {
+    cursor: pointer;
 }
 
 img {
-  max-height: 40px;
-  border: 2px solid #FFF;
-  display: inline;
-  border-radius: 50%;
+    max-height: 50px;
+    border: 2px solid white;
+    display: inline;
 }

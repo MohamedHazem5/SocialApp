@@ -15,7 +15,7 @@ namespace API.Data.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.5");
+            modelBuilder.HasAnnotation("ProductVersion", "7.0.9");
 
             modelBuilder.Entity("API.Entities.AppRole", b =>
                 {
@@ -63,10 +63,10 @@ namespace API.Data.Migrations
                     b.Property<string>("Country")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("CreateAccount")
+                    b.Property<DateTime>("Created")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("DateofBirth")
+                    b.Property<DateOnly>("DateOfBirth")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
@@ -154,6 +154,34 @@ namespace API.Data.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
+            modelBuilder.Entity("API.Entities.Connection", b =>
+                {
+                    b.Property<string>("ConnectionId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("GroupName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ConnectionId");
+
+                    b.HasIndex("GroupName");
+
+                    b.ToTable("Connections");
+                });
+
+            modelBuilder.Entity("API.Entities.Group", b =>
+                {
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Name");
+
+                    b.ToTable("Groups");
+                });
+
             modelBuilder.Entity("API.Entities.Message", b =>
                 {
                     b.Property<int>("Id")
@@ -226,12 +254,12 @@ namespace API.Data.Migrations
                     b.Property<int>("SourceUserId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("LikedUserId")
+                    b.Property<int>("TargetUserId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("SourceUserId", "LikedUserId");
+                    b.HasKey("SourceUserId", "TargetUserId");
 
-                    b.HasIndex("LikedUserId");
+                    b.HasIndex("TargetUserId");
 
                     b.ToTable("Likes");
                 });
@@ -339,16 +367,23 @@ namespace API.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("API.Entities.Connection", b =>
+                {
+                    b.HasOne("API.Entities.Group", null)
+                        .WithMany("Connections")
+                        .HasForeignKey("GroupName");
+                });
+
             modelBuilder.Entity("API.Entities.Message", b =>
                 {
                     b.HasOne("API.Entities.AppUser", "Recipient")
-                        .WithMany("MessageRecevied")
+                        .WithMany("MessagesReceived")
                         .HasForeignKey("RecipientId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("API.Entities.AppUser", "Sender")
-                        .WithMany("MessageSent")
+                        .WithMany("MessagesSent")
                         .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -371,21 +406,21 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.UserLike", b =>
                 {
-                    b.HasOne("API.Entities.AppUser", "LikedUser")
-                        .WithMany("LikedByUsers")
-                        .HasForeignKey("LikedUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("API.Entities.AppUser", "SourceUser")
                         .WithMany("LikedUsers")
                         .HasForeignKey("SourceUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("LikedUser");
+                    b.HasOne("API.Entities.AppUser", "TargetUser")
+                        .WithMany("LikedByUsers")
+                        .HasForeignKey("TargetUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("SourceUser");
+
+                    b.Navigation("TargetUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -435,13 +470,18 @@ namespace API.Data.Migrations
 
                     b.Navigation("LikedUsers");
 
-                    b.Navigation("MessageRecevied");
+                    b.Navigation("MessagesReceived");
 
-                    b.Navigation("MessageSent");
+                    b.Navigation("MessagesSent");
 
                     b.Navigation("Photos");
 
                     b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("API.Entities.Group", b =>
+                {
+                    b.Navigation("Connections");
                 });
 #pragma warning restore 612, 618
         }
