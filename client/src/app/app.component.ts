@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { User } from './_models/user';
 import { AccountService } from './_services/account.service';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -9,11 +10,17 @@ import { AccountService } from './_services/account.service';
 })
 export class AppComponent implements OnInit {
   title = 'Dating app';
-
-  constructor(private accountService: AccountService) {}
+  isHomePage!: boolean;
+  registerMode = false;
+  constructor(private accountService: AccountService,private router?: Router) {}
 
   ngOnInit(): void {
     this.setCurrentUser();
+    this.router?.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.isHomePage = event.url === '/';
+      }
+    });
   }
 
   setCurrentUser() {

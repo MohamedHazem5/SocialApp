@@ -34,7 +34,7 @@ export class AccountService {
         }
       })
     )
-  } 
+  }
 
   setCurrentUser(user: User) {
     user.roles = [];

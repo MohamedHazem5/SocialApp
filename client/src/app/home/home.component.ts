@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-home',
@@ -9,7 +10,9 @@ export class HomeComponent implements OnInit {
   registerMode = false;
   users: any;
 
-  constructor() { }
+  constructor() {
+    
+  }
 
   ngOnInit(): void {
   }
@@ -20,6 +23,6 @@ export class HomeComponent implements OnInit {
 
   cancelRegisterMode(event: boolean) {
     this.registerMode = event;
-  } 
+  }
 
 }

@@ -1,31 +1,31 @@
-<form [formGroup]="registerForm" (ngSubmit)="registerForm.valid && register()" autocomplete="off">
-    <h2 class="text-center text-primary">Sign up</h2>
+<form [formGroup]="registerForm" (ngSubmit)="registerForm.valid && register()" autocomplete="off" @fade>
+    <h2 class="text-center " style="color: white;">Sign up</h2>
     <hr>
 
     <div class="mb-3">
-        <label style="margin-right:10px">I am a: </label>
-        <label class="form-check-label">
-            <input type="radio" class="form-check-input" value="male" formControlName="gender"> Male
+        <label style="margin-right:10px; color: white;">I am a:    </label>
+        <label class="form-check-label" style="color: white;">
+            <input type="radio"  class="form-check-input" value="male" formControlName="gender"> Male
         </label>
-        <label class="form-check-label">
+        <label class="form-check-label" style="color: white;">
             <input type="radio" class="form-check-input ms-3" value="female" formControlName="gender"> Female
         </label>
     </div>
 
-    <app-text-input [formControl]="$any(registerForm.controls['username'])" 
+    <app-text-input [formControl]="$any(registerForm.controls['username'])"
         [label]="'Username'"></app-text-input>
-    <app-text-input [formControl]="$any(registerForm.controls['knownAs'])" 
+    <app-text-input [formControl]="$any(registerForm.controls['knownAs'])"
         [label]="'Known As'"></app-text-input>
-    <app-date-picker [formControl]="$any(registerForm.controls['dateOfBirth'])" 
+    <app-date-picker [formControl]="$any(registerForm.controls['dateOfBirth'])"
         [label]="'Date of Birth'" [maxDate]="maxDate"></app-date-picker >
-    <app-text-input [formControl]="$any(registerForm.controls['city'])" 
+    <app-text-input [formControl]="$any(registerForm.controls['city'])"
         [label]="'City'"></app-text-input>
-    <app-text-input [formControl]="$any(registerForm.controls['country'])" 
+    <app-text-input [formControl]="$any(registerForm.controls['country'])"
         [label]="'Country'"></app-text-input>
-    <app-text-input [formControl]="$any(registerForm.controls['password'])" 
+    <app-text-input [formControl]="$any(registerForm.controls['password'])"
         [label]="'Password'" [type]="'password'">
     </app-text-input>
-    <app-text-input [formControl]="$any(registerForm.controls['confirmPassword'])" 
+    <app-text-input [formControl]="$any(registerForm.controls['confirmPassword'])"
         [label]="'Confirm Password'"
         [type]="'password'"></app-text-input>
 
@@ -38,7 +38,9 @@
     </div>
 
     <div class="text-center">
-        <button [disabled]="!registerForm.valid" class="btn btn-success me-2" type="submit">Register</button>
-        <button class="btn btn-default" type="button" (click)="cancel()">Cancel</button>
+        <button [disabled]="!registerForm.valid" class="btn btn-primary me-2" type="submit">Register</button>
+        <button class="btn btn-default" type="button" (click)="cancel()" style="color: white;">Cancel</button>
     </div>
 </form>
+
+

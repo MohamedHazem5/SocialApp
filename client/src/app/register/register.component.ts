@@ -3,11 +3,25 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Vali
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '../_services/account.service';
-
+import {
+  trigger, state, style, animate, transition, query, group
+ } from '@angular/animations';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  styleUrls: ['./register.component.css'],
+  animations: [
+    trigger('fade', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate(1000, style({ opacity: 1 }))
+      ]),
+      transition(':leave', [
+        style({ opacity: 1 }),
+        animate(1000, style({ opacity: 0 }))
+      ])
+    ])
+  ]
 })
 export class RegisterComponent implements OnInit {
   @Output() cancelRegister = new EventEmitter();
@@ -15,7 +29,9 @@ export class RegisterComponent implements OnInit {
   maxDate: Date = new Date();
   validationErrors: string[] | undefined;
 
-  constructor(private accountService: AccountService, private toastr: ToastrService, 
+  showEvents = true;
+
+  constructor(private accountService: AccountService, private toastr: ToastrService,
       private fb: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
@@ -31,7 +47,7 @@ export class RegisterComponent implements OnInit {
       dateOfBirth: ['', Validators.required],
       city: ['', Validators.required],
       country: ['', Validators.required],
-      password: ['', [Validators.required, 
+      password: ['', [Validators.required,
         Validators.minLength(4), Validators.maxLength(8)]],
       confirmPassword: ['', [Validators.required, this.matchValues('password')]],
     });
@@ -55,7 +71,7 @@ export class RegisterComponent implements OnInit {
       },
       error: error => {
         this.validationErrors = error
-      } 
+      }
     })
   }
 
