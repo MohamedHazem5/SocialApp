@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "homepage": "http://MohamedHazem5.github.io/SocialApp",
     "ng2-file-upload": "^1.4.0"
   }
 }
